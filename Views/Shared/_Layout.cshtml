@@ -1,0 +1,92 @@
+﻿
+<!DOCTYPE html>
+<html>
+<partial name="_HeaderPartial" />
+<body>
+<partial name="_NavBar" />
+<div class="container body-content">
+    @RenderBody()
+    <hr />
+    <div class="col-md-12">
+        <footer>
+            <p>- @AppConstants.LayOut.Config.ApplicationName - &copy; جميع الحقوق محفوظة ................ @DateTime.Now.Year </p>
+        </footer>
+    </div>
+</div>
+
+<partial name="_ScriptExtenstions" />
+
+@RenderSection("scripts", false)
+
+</body>
+</html>
+<script>
+    $(document).ready(function () {
+        $('.datepicker').datepicker({ format: 'dd-mm-yyyy' });
+
+        //DISABLE right click
+        jQuery(this).bind("contextmenu", function (event) {
+            event.preventDefault();
+            bootbox.alert({
+                message: "Sorry, This Functionality Has Been Disabled",
+                className: 'rubberBand animated'
+            });
+        });
+
+        //disable Ctr + U + F12
+        $(document).keydown(function (event) {
+            var pressedKey = String.fromCharCode(event.keyCode).toLowerCase();
+            debugger;
+            if (event.ctrlKey && (pressedKey == "c" || pressedKey == "u" || pressedKey == "v")) {
+                //alert('Sorry, This Functionality Has Been Disabled!');
+                bootbox.alert({
+                    message: "Sorry, This Functionality Has Been Disabled",
+                    className: 'rubberBand animated'
+                });
+                //disable key press porcessing
+                return false;
+            }
+
+            if (event.keyCode == 123) {
+                bootbox.alert({
+                    message: "Sorry, This Functionality Has Been Disabled",
+                    className: 'rubberBand animated'
+                });
+
+                return false;
+            }
+        });
+
+        //Fire Policy Partial Popup for user Confirmation
+        ConfirmUserPolicy();
+    });
+
+    function ConfirmUserPolicy() {
+        if (localStorage.getItem('userConfirmPolicy') == null || localStorage.getItem('userConfirmPolicy') == '') {
+            bootbox.confirm({
+                title: "@AppConstants.Account.Login.UserConfirmPolicyTitle",
+                message: "@AppConstants.Account.Login.UserConfirmPolicy",
+                buttons: {
+                    cancel: {
+                        label: '<i class="fa fa-times"></i> إلغاء'
+                    },
+                    confirm: {
+                        label: '<i class="fa fa-check"></i> موافق'
+                    }
+                },
+                callback: function (result) {
+                    console.log('This was logged in the callback: ' + result);
+                    if (result != false) {
+                        localStorage.setItem('userConfirmPolicy', "true");
+                    }
+                    else {
+                        ConfirmUserPolicy();
+                    }
+
+
+                }
+            });
+        }
+
+    }
+</script>
