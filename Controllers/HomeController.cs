@@ -58,9 +58,7 @@ namespace Template.Controllers
 
             dynamic config = JsonConvert.DeserializeObject<ExpandoObject>(json, jsonSettings);
 
-            config.DebugEnabled = true;
-            config.WeatherClientConfig.IsEnabled = true;
-            config.WeatherClientConfig.TemperatureUnits = "Test";
+            config.AppSetting.ApplicationName = "اسم النظام 2";
 
             var newJson = JsonConvert.SerializeObject(config, Formatting.Indented, jsonSettings);
 

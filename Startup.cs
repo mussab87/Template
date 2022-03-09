@@ -20,6 +20,8 @@ using System.IO;
 using Newtonsoft.Json;
 using System.Dynamic;
 using Newtonsoft.Json.Converters;
+using System.Text.Encodings.Web;
+using System.Text.Unicode;
 
 namespace Template
 {
@@ -67,10 +69,12 @@ namespace Template
                  Configuration.GetConnectionString("ServiceDBConnection"),
                  Configuration.GetConnectionString("DBUsername"),
                  Configuration.GetConnectionString("DBPassword")
-                 );            
+                 );
 
-            
 
+            services.AddSingleton<HtmlEncoder>(
+  HtmlEncoder.Create(allowedRanges: new[] { UnicodeRanges.BasicLatin,
+                                            UnicodeRanges.Arabic }));
             services.AddEntityFrameworkSqlServer();
 
             services.AddDbContext<AppDbContext>(

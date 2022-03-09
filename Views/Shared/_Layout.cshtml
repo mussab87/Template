@@ -1,22 +1,26 @@
-﻿
+﻿@inject Microsoft.Extensions.Configuration.IConfiguration config;
 <!DOCTYPE html>
-<html>
+<html lang="ar">
 <partial name="_HeaderPartial" />
+
+@{
+    var ApplicationName = config["AppSetting:ApplicationName"];
+}
 <body>
-<partial name="_NavBar" />
-<div class="container body-content">
-    @RenderBody()
-    <hr />
-    <div class="col-md-12">
-        <footer>
-            <p>- @AppConstants.LayOut.Config.ApplicationName - &copy; جميع الحقوق محفوظة ................ @DateTime.Now.Year </p>
-        </footer>
+    <partial name="_NavBar" />
+    <div class="container body-content">
+        @RenderBody()
+        <hr />
+        <div class="col-md-12">
+            <footer>
+                <p>- @ApplicationName - &copy; جميع الحقوق محفوظة ................ @DateTime.Now.Year </p>
+            </footer>
+        </div>
     </div>
-</div>
 
-<partial name="_ScriptExtenstions" />
+    <partial name="_ScriptExtenstions" />
 
-@RenderSection("scripts", false)
+    @RenderSection("scripts", false)
 
 </body>
 </html>
@@ -24,38 +28,38 @@
     $(document).ready(function () {
         $('.datepicker').datepicker({ format: 'dd-mm-yyyy' });
 
-        //DISABLE right click
-        jQuery(this).bind("contextmenu", function (event) {
-            event.preventDefault();
-            bootbox.alert({
-                message: "Sorry, This Functionality Has Been Disabled",
-                className: 'rubberBand animated'
-            });
-        });
+        ////DISABLE right click
+        //jQuery(this).bind("contextmenu", function (event) {
+        //    event.preventDefault();
+        //    bootbox.alert({
+        //        message: "Sorry, This Functionality Has Been Disabled",
+        //        className: 'rubberBand animated'
+        //    });
+        //});
 
-        //disable Ctr + U + F12
-        $(document).keydown(function (event) {
-            var pressedKey = String.fromCharCode(event.keyCode).toLowerCase();
-            debugger;
-            if (event.ctrlKey && (pressedKey == "c" || pressedKey == "u" || pressedKey == "v")) {
-                //alert('Sorry, This Functionality Has Been Disabled!');
-                bootbox.alert({
-                    message: "Sorry, This Functionality Has Been Disabled",
-                    className: 'rubberBand animated'
-                });
-                //disable key press porcessing
-                return false;
-            }
+        ////disable Ctr + U + F12
+        //$(document).keydown(function (event) {
+        //    var pressedKey = String.fromCharCode(event.keyCode).toLowerCase();
+        //    debugger;
+        //    if (event.ctrlKey && (pressedKey == "c" || pressedKey == "u" || pressedKey == "v")) {
+        //        //alert('Sorry, This Functionality Has Been Disabled!');
+        //        bootbox.alert({
+        //            message: "Sorry, This Functionality Has Been Disabled",
+        //            className: 'rubberBand animated'
+        //        });
+        //        //disable key press porcessing
+        //        return false;
+        //    }
 
-            if (event.keyCode == 123) {
-                bootbox.alert({
-                    message: "Sorry, This Functionality Has Been Disabled",
-                    className: 'rubberBand animated'
-                });
+        //    if (event.keyCode == 123) {
+        //        bootbox.alert({
+        //            message: "Sorry, This Functionality Has Been Disabled",
+        //            className: 'rubberBand animated'
+        //        });
 
-                return false;
-            }
-        });
+        //        return false;
+        //    }
+        //});
 
         //Fire Policy Partial Popup for user Confirmation
         ConfirmUserPolicy();
