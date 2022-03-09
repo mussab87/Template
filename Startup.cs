@@ -16,6 +16,10 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Service.DataLayer.Security;
 using Service.DataLayer;
+using System.IO;
+using Newtonsoft.Json;
+using System.Dynamic;
+using Newtonsoft.Json.Converters;
 
 namespace Template
 {
@@ -36,6 +40,27 @@ namespace Template
             ////string SecretKey = "RSLFEncrypti0nConnect0n@Username&K6yPasswordRSLF";
             ////var testReturnUsername = Crypto.EncryptStringDES(username, SecretKey);
             ////var testReturnPassword = Crypto.EncryptStringDES(password, SecretKey);
+            ///
+
+            //change AppSettings file*********************
+            //var appSettingsPath = Path.Combine(System.IO.Directory.GetCurrentDirectory(), "appsettings.json");
+            //var json = File.ReadAllText(appSettingsPath);
+
+            //var jsonSettings = new JsonSerializerSettings();
+            //jsonSettings.Converters.Add(new ExpandoObjectConverter());
+            //jsonSettings.Converters.Add(new StringEnumConverter());
+
+            //dynamic config = JsonConvert.DeserializeObject<ExpandoObject>(json, jsonSettings);
+
+            //config.DebugEnabled = true;
+            //config.WeatherClientConfig.IsEnabled = true;
+            //config.WeatherClientConfig.TemperatureUnits = "Test";
+
+            //var newJson = JsonConvert.SerializeObject(config, Formatting.Indented, jsonSettings);
+
+            //File.WriteAllText(appSettingsPath, newJson);
+
+            //*********************************
 
             //for decrypt username & password
             string DatabaseConn = DBAppConfigHelper.ConnDb(

@@ -10,6 +10,10 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
 using Service.DataLayer.Security;
 using Service.DataLayer.Models;
+using System.IO;
+using Newtonsoft.Json;
+using System.Dynamic;
+using Newtonsoft.Json.Converters;
 
 namespace Template.Controllers
 {
@@ -45,6 +49,23 @@ namespace Template.Controllers
         //[AllowAnonymous]
         public async Task<IActionResult> Home() 
         {
+            var appSettingsPath = Path.Combine(System.IO.Directory.GetCurrentDirectory(), "appsettings.json");
+            var json = System.IO.File.ReadAllText(appSettingsPath);
+
+            var jsonSettings = new JsonSerializerSettings();
+            jsonSettings.Converters.Add(new ExpandoObjectConverter());
+            jsonSettings.Converters.Add(new StringEnumConverter());
+
+            dynamic config = JsonConvert.DeserializeObject<ExpandoObject>(json, jsonSettings);
+
+            config.DebugEnabled = true;
+            config.WeatherClientConfig.IsEnabled = true;
+            config.WeatherClientConfig.TemperatureUnits = "Test";
+
+            var newJson = JsonConvert.SerializeObject(config, Formatting.Indented, jsonSettings);
+
+            System.IO.File.WriteAllText(appSettingsPath, newJson);
+
             //check if first time for login redirect user to change password page before process anything on the system
             var user = await userManager.GetUserAsync(User);
             if (user.FirstLogin == null)
